@@ -18,6 +18,8 @@ use std::iter::zip;
 
 use crate::cool_device::CoolDevice;
 use crate::thermal_zone::ThermalZone;
+use crate::config::ThermalConfig;
+use crate::properties;
 
 pub struct Thermal {
     cooling_devices: Vec<CoolDevice>,
@@ -112,6 +114,17 @@ impl binder::Interface for ThermalService {}
 
 impl Thermal {
     pub fn load_devices() -> std::io::Result<Self> {
+        let config_path = properties::get_config_file_path();
+        info!("Loading thermal config from: {}", config_path);
+        
+        let config = match ThermalConfig::load_from_file(&config_path) {
+            Ok(config) => config,
+            Err(e) => {
+                error!("Failed to load thermal config from {}: {}", config_path, e);
+                return Err(std::io::Error::new(std::io::ErrorKind::InvalidData, e.to_string()));
+            }
+        };
+
         let sysfs_thermal_dir = "/sys/class/thermal/";
         let mut cooling_devices = vec![];
         let mut thermal_zones = vec![];
@@ -123,13 +136,19 @@ impl Thermal {
             let file_name = entry.file_name().into_string().unwrap();
 
             if cooling_devices_regex.is_match(&file_name) {
-                cooling_devices.push(CoolDevice::new(&file_name));
+                if let Some(device_config) = config.get_cooling_device_config(&file_name) {
+                    cooling_devices.push(CoolDevice::from_config(&file_name, device_config));
+                }
             } else if thermal_zones_regex.is_match(&file_name) {
-                let tz = ThermalZone::new(&file_name);
-                if tz.get_type() != TemperatureType::UNKNOWN && tz.is_valid() {
-                    thermal_zones.push(tz);
+                if let Some(zone_config) = config.get_zone_config(&file_name) {
+                    let tz = ThermalZone::from_config(&file_name, zone_config);
+                    if tz.get_type() != TemperatureType::UNKNOWN {
+                        thermal_zones.push(tz);
+                    } else {
+                        info!("Ignoring {} (unknown type)", file_name);
+                    }
                 } else {
-                    info!("Ignoring {}", file_name);
+                    info!("Ignoring {} (not found in config)", file_name);
                 }
             }
         }
@@ -389,5 +408,16 @@ impl IThermal for ThermalService {
         error!("For now CoolingDeviceChangedCallback are never ran");
 
         Ok(())
+    }
+
+    #[cfg(feature = "thermal_hal_v3")]
+    fn forecastSkinTemperature(&self, _in_forecast_seconds: i32) -> Result<f32, binder::Status> {
+        trace!("forecastSkinTemperature called - returning NOT_SUPPORTED");
+
+        // Return NOT_SUPPORTED for skin temperature forecasting
+        Err(binder::Status::new_exception_str(
+            binder::ExceptionCode::UNSUPPORTED_OPERATION,
+            Some("Skin temperature forecasting is not supported"),
+        ))
     }
 }

@@ -24,7 +24,9 @@ rust_binary {
     "liblog_rust",
     "libregex",
     "libbinder_rs",
-    "android.hardware.thermal-V2-rust"
+    "android.hardware.thermal-V2-rust",
+    "libserde",
+    "libserde_json",
   ],
   srcs: [
     "src/main.rs"
@@ -33,15 +35,9 @@ rust_binary {
 }
 
 prebuilt_etc {
-    name: "android.hardware.thermal.rs.generic.xml",
-    src: "thermal-generic_rs.xml",
-    sub_dir: "vintf",
-    installable: false,
-}
-
-prebuilt_etc {
-    name: "android.hardware.thermal.rs.generic.rc",
-    src: "thermal-generic_rs.rc",
+    name: "thermal_config_generic.json",
+    src: "thermal_config_generic.json",
+    sub_dir: "thermal",
     installable: false,
 }
 
@@ -73,5 +69,6 @@ apex {
     prebuilts: [
         "android.hardware.thermal.rs.generic.xml",
         "android.hardware.thermal.rs.generic.rc",
+        "thermal_config_generic.json",
     ],
 }
