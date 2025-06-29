@@ -2,4 +2,4 @@
 /etc(/.*)?                                                      u:object_r:vendor_configs_file:s0
 /sys/devices/virtual/thermal(/.*)?                              u:object_r:sysfs_thermal:s0
 /sys/class/thermal(/.*)?                                        u:object_r:sysfs_thermal:s0
-/bin/hw/android\.hardware\.thermal-service\.rs\.generic        u:object_r:hal_thermal_default_exec:s0
+/bin/hw/android\.hardware\.thermal-service\.rs\.generic.*      u:object_r:hal_thermal_default_exec:s0
