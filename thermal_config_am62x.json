@@ -1,0 +1,26 @@
+{
+  "thermal_zones": [
+    {
+      "sysfs_name": "thermal_zone0",
+      "name": "AM62x_Main0_Domain",
+      "type": "SOC",
+      "multiplier": 1.0,
+      "thresholds": {
+        "hot": 85000,
+        "critical": 95000,
+        "emergency": 105000
+      }
+    },
+    {
+      "sysfs_name": "thermal_zone1", 
+      "name": "AM62x_Main1_Domain",
+      "type": "POWER_AMPLIFIER",
+      "multiplier": 1.0,
+      "thresholds": {
+        "hot": 85000,
+        "critical": 95000,
+        "emergency": 105000
+      }
+    }
+  ]
+}

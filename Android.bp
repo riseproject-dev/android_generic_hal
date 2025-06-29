@@ -64,6 +64,20 @@ prebuilt_etc {
 }
 
 prebuilt_etc {
+    name: "thermal_config_am62p.json", 
+    src: "thermal_config_am62p.json",
+    sub_dir: "thermal",
+    installable: false,
+}
+
+prebuilt_etc {
+    name: "thermal_config_am62x.json",
+    src: "thermal_config_am62x.json", 
+    sub_dir: "thermal",
+    installable: false,
+}
+
+prebuilt_etc {
     name: "android.hardware.thermal.rs.generic.xml",
     src: "thermal-generic_rs.xml",
     sub_dir: "vintf",
@@ -105,6 +119,8 @@ apex {
         "android.hardware.thermal.rs.generic.xml",
         "android.hardware.thermal.rs.generic.v2.rc",
         "thermal_config_generic.json",
+        "thermal_config_am62p.json",
+        "thermal_config_am62x.json",
     ],
 }
 
@@ -124,5 +140,7 @@ apex {
         "android.hardware.thermal.rs.generic.v3.xml",
         "android.hardware.thermal.rs.generic.v3.rc",
         "thermal_config_generic.json",
+        "thermal_config_am62p.json",
+        "thermal_config_am62x.json",
     ],
 }
