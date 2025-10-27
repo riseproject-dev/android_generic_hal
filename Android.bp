@@ -24,7 +24,31 @@ rust_binary {
     "liblog_rust",
     "libregex",
     "libbinder_rs",
-    "android.hardware.thermal-V2-rust"
+    "android.hardware.thermal-V2-rust",
+    "libserde",
+    "libserde_json",
+  ],
+  srcs: [
+    "src/main.rs"
+  ],
+  installable: false,
+}
+
+rust_binary {
+  name: "android.hardware.thermal-service.rs.generic.v3",
+  relative_install_path: "hw",
+  vendor: true,
+  rustlibs: [
+    "liblogger",
+    "liblog_rust",
+    "libregex",
+    "libbinder_rs",
+    "android.hardware.thermal-V3-rust",
+    "libserde",
+    "libserde_json",
+  ],
+  features: [
+    "thermal_hal_v3",
   ],
   srcs: [
     "src/main.rs"
@@ -33,6 +57,27 @@ rust_binary {
 }
 
 prebuilt_etc {
+    name: "thermal_config_generic.json",
+    src: "thermal_config_generic.json",
+    sub_dir: "thermal",
+    installable: false,
+}
+
+prebuilt_etc {
+    name: "thermal_config_am62p.json", 
+    src: "thermal_config_am62p.json",
+    sub_dir: "thermal",
+    installable: false,
+}
+
+prebuilt_etc {
+    name: "thermal_config_am62x.json",
+    src: "thermal_config_am62x.json", 
+    sub_dir: "thermal",
+    installable: false,
+}
+
+prebuilt_etc {
     name: "android.hardware.thermal.rs.generic.xml",
     src: "thermal-generic_rs.xml",
     sub_dir: "vintf",
@@ -40,21 +85,21 @@ prebuilt_etc {
 }
 
 prebuilt_etc {
-    name: "android.hardware.thermal.rs.generic.rc",
-    src: "thermal-generic_rs.rc",
+  name: "android.hardware.thermal.rs.generic.v3.xml",
+  src: "thermal-generic_rs_v3.xml",
+  sub_dir: "vintf",
+  installable: false,
+}
+
+prebuilt_etc {
+    name: "android.hardware.thermal.rs.generic.v2.rc",
+    src: "thermal-generic_rs_v2.rc",
     installable: false,
 }
 
 prebuilt_etc {
-    name: "android.hardware.thermal.rs.generic.xml",
-    src: "thermal-generic_rs.xml",
-    sub_dir: "vintf",
-    installable: false,
-}
-
-prebuilt_etc {
-    name: "android.hardware.thermal.rs.generic.rc",
-    src: "thermal-generic_rs.rc",
+    name: "android.hardware.thermal.rs.generic.v3.rc",
+    src: "thermal-generic_rs_v3.rc",
     installable: false,
 }
 
@@ -72,6 +117,30 @@ apex {
     ],
     prebuilts: [
         "android.hardware.thermal.rs.generic.xml",
-        "android.hardware.thermal.rs.generic.rc",
+        "android.hardware.thermal.rs.generic.v2.rc",
+        "thermal_config_generic.json",
+        "thermal_config_am62p.json",
+        "thermal_config_am62x.json",
+    ],
+}
+
+apex {
+    name: "com.android.hardware.thermal.rs.generic.v3",
+    manifest: "apex_manifest_rs.json",
+    file_contexts: "apex_file_contexts_rs",
+    key: "com.android.hardware.key",
+    certificate: ":com.android.hardware.certificate",
+    updatable: false,
+    vendor: true,
+
+    binaries: [
+        "android.hardware.thermal-service.rs.generic.v3",
+    ],
+    prebuilts: [
+        "android.hardware.thermal.rs.generic.v3.xml",
+        "android.hardware.thermal.rs.generic.v3.rc",
+        "thermal_config_generic.json",
+        "thermal_config_am62p.json",
+        "thermal_config_am62x.json",
     ],
 }

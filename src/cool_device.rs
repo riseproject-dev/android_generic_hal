@@ -1,10 +1,10 @@
 use android_hardware_thermal::aidl::android::hardware::thermal::{
     CoolingDevice::CoolingDevice, CoolingType::CoolingType,
 };
-use log::debug;
 
 use std::str::FromStr;
 
+use crate::config::CoolingDeviceConfig;
 use crate::utils;
 
 #[derive(Default)]
@@ -14,13 +14,17 @@ pub struct CoolDevice {
 }
 
 impl CoolDevice {
-    pub fn new(name: &str) -> Self {
+
+    pub fn from_config(name: &str, config: &CoolingDeviceConfig) -> Self {
         let mut cool_dev = Self {
             dir_name: name.to_string(),
             ..Default::default()
         };
 
-        cool_dev.set_type_and_name();
+        // Set type and name from config
+        let cooling_type = config.get_cooling_type();
+        cool_dev.dev.name = config.name.clone();
+        cool_dev.dev.r#type = cooling_type;
 
         cool_dev
     }
@@ -29,28 +33,7 @@ impl CoolDevice {
         format!("/sys/class/thermal/{}/{}", self.dir_name, file_name)
     }
 
-    fn set_type_and_name(&mut self) {
-        let type_names = [
-            ("Fan", "fan", CoolingType::FAN),
-            ("Processor", "processor", CoolingType::CPU),
-        ];
-        let path = self.get_file("type");
-        let dev_type = utils::read_sysfs_file(&path).unwrap();
 
-        debug!("{}: \"{}\"", path, dev_type);
-
-        // Unfortunately there's no UNKNOWN value for cooling type, this can lead to confusion...
-        let mut r#type = CoolingType::FAN;
-        for (type_cap, type_lower, cooling_type) in type_names {
-            if dev_type == type_cap || dev_type == type_lower {
-                r#type = cooling_type;
-                break;
-            }
-        }
-
-        self.dev.name = dev_type;
-        self.dev.r#type = r#type;
-    }
 
     fn update_state(&mut self) {
         let path = self.get_file("cur_state");

@@ -1,4 +1,6 @@
+mod config;
 mod cool_device;
+mod properties;
 mod thermal;
 mod thermal_zone;
 mod utils;
