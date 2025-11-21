@@ -72,7 +72,14 @@ prebuilt_etc {
 
 prebuilt_etc {
     name: "thermal_config_am62x.json",
-    src: "thermal_config_am62x.json", 
+    src: "thermal_config_am62x.json",
+    sub_dir: "thermal",
+    installable: false,
+}
+
+prebuilt_etc {
+    name: "thermal_config_g12.json",
+    src: "thermal_config_g12.json",
     sub_dir: "thermal",
     installable: false,
 }
@@ -121,6 +128,7 @@ apex {
         "thermal_config_generic.json",
         "thermal_config_am62p.json",
         "thermal_config_am62x.json",
+        "thermal_config_g12.json",
     ],
 }
 
@@ -142,5 +150,6 @@ apex {
         "thermal_config_generic.json",
         "thermal_config_am62p.json",
         "thermal_config_am62x.json",
+        "thermal_config_g12.json",
     ],
 }
