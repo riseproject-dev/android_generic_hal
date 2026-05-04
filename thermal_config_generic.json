@@ -12,7 +12,7 @@
       }
     },
     {
-      "sysfs_name": "thermal_zone1", 
+      "sysfs_name": "thermal_zone1",
       "name": "GPU_Generic",
       "type": "GPU",
       "multiplier": 1.0,
@@ -42,7 +42,7 @@
     },
     {
       "sysfs_name": "cooling_device1",
-      "name": "GPU_Throttle", 
+      "name": "GPU_Throttle",
       "type": "GPU"
     }
   ]
