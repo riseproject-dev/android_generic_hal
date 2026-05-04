@@ -85,6 +85,13 @@ prebuilt_etc {
 }
 
 prebuilt_etc {
+    name: "thermal_config_spacemit.json",
+    src: "thermal_config_spacemit.json",
+    sub_dir: "thermal",
+    installable: false,
+}
+
+prebuilt_etc {
     name: "android.hardware.thermal.rs.generic.xml",
     src: "thermal-generic_rs.xml",
     sub_dir: "vintf",
@@ -129,6 +136,7 @@ apex {
         "thermal_config_am62p.json",
         "thermal_config_am62x.json",
         "thermal_config_g12.json",
+        "thermal_config_spacemit.json",
     ],
 }
 
@@ -151,5 +159,6 @@ apex {
         "thermal_config_am62p.json",
         "thermal_config_am62x.json",
         "thermal_config_g12.json",
+        "thermal_config_spacemit.json",
     ],
 }
