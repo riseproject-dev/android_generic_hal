@@ -37,9 +37,9 @@ impl CoolDevice {
 
     fn update_state(&mut self) {
         let path = self.get_file("cur_state");
-        let value = utils::read_sysfs_file(&path).unwrap();
-
-        self.dev.value = i64::from_str(&value).unwrap();
+        if let Ok(value) = utils::read_sysfs_file(&path) {
+            self.dev.value = i64::from_str(&value).unwrap_or(0);
+        }
     }
 
     pub fn updated_clone(&self) -> CoolingDevice {

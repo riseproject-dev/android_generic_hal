@@ -78,20 +78,24 @@ impl ThermalZone {
 
     pub fn read_temp(&self) -> Temperature {
         let temp_path = self.get_file("temp");
-        let temp = utils::read_sysfs_file(&temp_path).unwrap();
-        let temp = f32::from_str(&temp).unwrap() / 1000.0;
+        let temp = match utils::read_sysfs_file(&temp_path) {
+            Ok(s) => f32::from_str(&s).unwrap_or(f32::NAN) / 1000.0,
+            Err(_) => f32::NAN,
+        };
 
         let mut throttling_status = ThrottlingSeverity::NONE;
-        for (idx, val) in self
-            .threshold
-            .hotThrottlingThresholds
-            .iter()
-            .enumerate()
-            .rev()
-        {
-            if *val != -1.0 && temp >= *val {
-                throttling_status = Self::idx_to_severity(idx);
-                break;
+        if !temp.is_nan() {
+            for (idx, val) in self
+                .threshold
+                .hotThrottlingThresholds
+                .iter()
+                .enumerate()
+                .rev()
+            {
+                if *val != -1.0 && temp >= *val {
+                    throttling_status = Self::idx_to_severity(idx);
+                    break;
+                }
             }
         }
 
