@@ -26,13 +26,13 @@ pub struct Thermal {
     thermal_zones: Vec<ThermalZone>,
     thermal_callbacks: Mutex<
         Vec<(
-            binder::Strong<(dyn IThermalChangedCallback + 'static)>,
+            binder::Strong<dyn IThermalChangedCallback + 'static>,
             TemperatureType,
         )>,
     >,
     device_callbacks: Mutex<
         Vec<(
-            binder::Strong<(dyn ICoolingDeviceChangedCallback + 'static)>,
+            binder::Strong<dyn ICoolingDeviceChangedCallback + 'static>,
             CoolingType,
         )>,
     >,
@@ -291,7 +291,7 @@ impl IThermal for ThermalService {
 
     fn registerThermalChangedCallback(
         &self,
-        in_callback: &binder::Strong<(dyn IThermalChangedCallback + 'static)>,
+        in_callback: &binder::Strong<dyn IThermalChangedCallback + 'static>,
     ) -> Result<(), binder::Status> {
         trace!("registerThermalChangedCallback called");
 
@@ -313,7 +313,7 @@ impl IThermal for ThermalService {
 
     fn registerThermalChangedCallbackWithType(
         &self,
-        in_callback: &binder::Strong<(dyn IThermalChangedCallback + 'static)>,
+        in_callback: &binder::Strong<dyn IThermalChangedCallback + 'static>,
         in_type: TemperatureType,
     ) -> Result<(), binder::Status> {
         trace!(
@@ -339,7 +339,7 @@ impl IThermal for ThermalService {
 
     fn unregisterThermalChangedCallback(
         &self,
-        in_callback: &binder::Strong<(dyn IThermalChangedCallback + 'static)>,
+        in_callback: &binder::Strong<dyn IThermalChangedCallback + 'static>,
     ) -> Result<(), binder::Status> {
         trace!("unregisterThermalChangedCallback called");
 
@@ -360,7 +360,7 @@ impl IThermal for ThermalService {
 
     fn registerCoolingDeviceChangedCallbackWithType(
         &self,
-        in_callback: &binder::Strong<(dyn ICoolingDeviceChangedCallback + 'static)>,
+        in_callback: &binder::Strong<dyn ICoolingDeviceChangedCallback + 'static>,
         in_type: CoolingType,
     ) -> Result<(), binder::Status> {
         trace!(
@@ -388,7 +388,7 @@ impl IThermal for ThermalService {
 
     fn unregisterCoolingDeviceChangedCallback(
         &self,
-        in_callback: &binder::Strong<(dyn ICoolingDeviceChangedCallback + 'static)>,
+        in_callback: &binder::Strong<dyn ICoolingDeviceChangedCallback + 'static>,
     ) -> Result<(), binder::Status> {
         trace!("unregisterCoolingDeviceChangedCallback called");
 
