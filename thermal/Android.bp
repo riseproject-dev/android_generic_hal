@@ -1,0 +1,164 @@
+//
+// Copyright (C) 2018 The Android Open Source Project
+// Copyright (C) 2025 BayLibre SAS
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+
+rust_binary {
+  name: "android.hardware.thermal-service.rs.generic",
+  relative_install_path: "hw",
+  vendor: true,
+  rustlibs: [
+    "liblogger",
+    "liblog_rust",
+    "libregex",
+    "libbinder_rs",
+    "android.hardware.thermal-V2-rust",
+    "libserde",
+    "libserde_json",
+  ],
+  srcs: [
+    "src/main.rs"
+  ],
+  installable: false,
+}
+
+rust_binary {
+  name: "android.hardware.thermal-service.rs.generic.v3",
+  relative_install_path: "hw",
+  vendor: true,
+  rustlibs: [
+    "liblogger",
+    "liblog_rust",
+    "libregex",
+    "libbinder_rs",
+    "android.hardware.thermal-V3-rust",
+    "libserde",
+    "libserde_json",
+  ],
+  features: [
+    "thermal_hal_v3",
+  ],
+  srcs: [
+    "src/main.rs"
+  ],
+  installable: false,
+}
+
+prebuilt_etc {
+    name: "thermal_config_generic.json",
+    src: "thermal_config_generic.json",
+    sub_dir: "thermal",
+    installable: false,
+}
+
+prebuilt_etc {
+    name: "thermal_config_am62p.json", 
+    src: "thermal_config_am62p.json",
+    sub_dir: "thermal",
+    installable: false,
+}
+
+prebuilt_etc {
+    name: "thermal_config_am62x.json",
+    src: "thermal_config_am62x.json",
+    sub_dir: "thermal",
+    installable: false,
+}
+
+prebuilt_etc {
+    name: "thermal_config_g12.json",
+    src: "thermal_config_g12.json",
+    sub_dir: "thermal",
+    installable: false,
+}
+
+prebuilt_etc {
+    name: "thermal_config_spacemit.json",
+    src: "thermal_config_spacemit.json",
+    sub_dir: "thermal",
+    installable: false,
+}
+
+prebuilt_etc {
+    name: "android.hardware.thermal.rs.generic.xml",
+    src: "thermal-generic_rs.xml",
+    sub_dir: "vintf",
+    installable: false,
+}
+
+prebuilt_etc {
+  name: "android.hardware.thermal.rs.generic.v3.xml",
+  src: "thermal-generic_rs_v3.xml",
+  sub_dir: "vintf",
+  installable: false,
+}
+
+prebuilt_etc {
+    name: "android.hardware.thermal.rs.generic.v2.rc",
+    src: "thermal-generic_rs_v2.rc",
+    installable: false,
+}
+
+prebuilt_etc {
+    name: "android.hardware.thermal.rs.generic.v3.rc",
+    src: "thermal-generic_rs_v3.rc",
+    installable: false,
+}
+
+apex {
+    name: "com.android.hardware.thermal.rs.generic",
+    manifest: "apex_manifest_rs.json",
+    file_contexts: "apex_file_contexts_rs",
+    key: "com.android.hardware.key",
+    certificate: ":com.android.hardware.certificate",
+    updatable: false,
+    vendor: true,
+
+    binaries: [
+        "android.hardware.thermal-service.rs.generic",
+    ],
+    prebuilts: [
+        "android.hardware.thermal.rs.generic.xml",
+        "android.hardware.thermal.rs.generic.v2.rc",
+        "thermal_config_generic.json",
+        "thermal_config_am62p.json",
+        "thermal_config_am62x.json",
+        "thermal_config_g12.json",
+        "thermal_config_spacemit.json",
+    ],
+}
+
+apex {
+    name: "com.android.hardware.thermal.rs.generic.v3",
+    manifest: "apex_manifest_rs.json",
+    file_contexts: "apex_file_contexts_rs",
+    key: "com.android.hardware.key",
+    certificate: ":com.android.hardware.certificate",
+    updatable: false,
+    vendor: true,
+
+    binaries: [
+        "android.hardware.thermal-service.rs.generic.v3",
+    ],
+    prebuilts: [
+        "android.hardware.thermal.rs.generic.v3.xml",
+        "android.hardware.thermal.rs.generic.v3.rc",
+        "thermal_config_generic.json",
+        "thermal_config_am62p.json",
+        "thermal_config_am62x.json",
+        "thermal_config_g12.json",
+        "thermal_config_spacemit.json",
+    ],
+}

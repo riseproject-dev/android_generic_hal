@@ -1,0 +1,58 @@
+{
+  "thermal_zones": [
+    {
+      "sysfs_name": "thermal_zone0",
+      "name": "CPU_Thermal",
+      "type": "CPU",
+      "multiplier": 1.0,
+      "thresholds": {
+        "hot": 85000,
+        "critical": 95000,
+        "emergency": 110000
+      }
+    },
+    {
+      "sysfs_name": "thermal_zone1",
+      "name": "DDR_Thermal",
+      "type": "SOC",
+      "multiplier": 1.0,
+      "thresholds": {
+        "hot": 85000,
+        "critical": 110000,
+        "emergency": 110000
+      }
+    }
+  ],
+  "cooling_devices": [
+    {
+      "sysfs_name": "cooling_device0",
+      "name": "CPU0_Freq",
+      "type": "CPU"
+    },
+    {
+      "sysfs_name": "cooling_device1",
+      "name": "CPU1_Freq",
+      "type": "CPU"
+    },
+    {
+      "sysfs_name": "cooling_device2",
+      "name": "CPU2_Freq",
+      "type": "CPU"
+    },
+    {
+      "sysfs_name": "cooling_device3",
+      "name": "CPU3_Freq",
+      "type": "CPU"
+    },
+    {
+      "sysfs_name": "cooling_device4",
+      "name": "CPU4_Freq",
+      "type": "CPU"
+    },
+    {
+      "sysfs_name": "cooling_device5",
+      "name": "CPU5_Freq",
+      "type": "CPU"
+    }
+  ]
+}

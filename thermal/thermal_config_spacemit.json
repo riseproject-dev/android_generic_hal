@@ -1,0 +1,33 @@
+{
+  "thermal_zones": [
+    {
+      "sysfs_name": "thermal_zone0",
+      "name": "GPU_K1",
+      "type": "GPU",
+      "multiplier": 1.0,
+      "thresholds": {
+        "hot": 80000,
+        "critical": 100000,
+        "emergency": 105000
+      }
+    },
+    {
+      "sysfs_name": "thermal_zone1",
+      "name": "CPU_K1",
+      "type": "CPU",
+      "multiplier": 1.0,
+      "thresholds": {
+        "hot": 75000,
+        "critical": 85000,
+        "emergency": 95000
+      }
+    }
+  ],
+  "cooling_devices": [
+    {
+      "sysfs_name": "cooling_device0",
+      "name": "CPU_Throttle",
+      "type": "CPU"
+    }
+  ]
+}
